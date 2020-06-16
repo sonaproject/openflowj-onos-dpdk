@@ -1120,7 +1120,11 @@ class OFPortStatsPropExperimenterIntelVer14 implements OFPortStatsPropExperiment
             if(length != 184) {
 		//FIXME: if we receive custom stats message, simply return dummy stats value
 		bb.readerIndex(start);
-		bb.skipBytes(length + (4 - length % 4));
+		if (length % 4 == 0) {
+		    bb.skipBytes(length);
+		} else {
+		    bb.skipBytes(length + (4 - length % 4));
+		}
 
 		U64 rx1To64Packets = U64.ofRaw(0L);
                 U64 rx65To127Packets = U64.ofRaw(0L);
